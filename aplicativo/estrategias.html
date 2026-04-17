@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>𝐄𝐱𝐩𝐥𝐨𝐫𝐞</title>
+<link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+
+<div class="topo">
+<h1>𝐄𝐱𝐩𝐥𝐨𝐫𝐞</h1>
+</div>
+
+<div class="container">
+
+<div class="hero">
+<h2>Domine suas estratégias</h2>
+<button onclick="alert('🔥')">Começar</button>
+</div>
+
+<div class="lista">
+<div class="item"><h3>𝐄𝐱𝐩𝐥𝐨𝐫𝐞 1</h3></div>
+<div class="item"><h3>𝐄𝐱𝐩𝐥𝐨𝐫𝐞 2</h3></div>
+<div class="item"><h3>𝐄𝐱𝐩𝐥𝐨𝐫𝐞 3</h3></div>
+<div class="item"><h3>𝐄𝐱𝐩𝐥𝐨𝐫𝐞 4</h3></div>
+</div>
+
+<div class="blog">
+<input id="titulo" placeholder="Título">
+<textarea id="texto"></textarea>
+<button onclick="postar()">Postar</button>
+<div id="posts"></div>
+</div>
+
+<a href="index.html" class="voltar">Voltar</a>
+
+</div>
+
+<script>
+function postar(){
+let t=document.getElementById("titulo").value;
+let x=document.getElementById("texto").value;
+if(t&&x){
+let p=document.createElement("div");
+p.className="post";
+p.innerHTML="<h3>"+t+"</h3><p>"+x+"</p>";
+document.getElementById("posts").appendChild(p);
+}}
+</script>
+
+</body>
+</html>

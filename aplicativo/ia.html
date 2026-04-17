@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>FlowAI</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background: #111;
+  color: white;
+  padding: 10px;
+}
+
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
+
+.msg { margin-bottom: 10px; }
+
+.user { text-align: right; }
+.bot { text-align: left; }
+
+.bubble {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+}
+
+.user .bubble { background: #000; color: #fff; }
+.bot .bubble { background: #ddd; }
+
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+}
+
+button {
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h3>Histórico</h3>
+  <div id="history"></div>
+</div>
+
+<div class="chat">
+  <div id="messages" class="messages"></div>
+
+  <div class="input-area">
+    <input id="input" placeholder="Digite algo...">
+    <button onclick="enviar()">➜</button>
+  </div>
+</div>
+
+<script>
+const API_URL = "https://SEU-BACKEND-AQUI/ia"; 
+// 👆 TROCA ISSO QUANDO SUBIR O SERVIDOR
+
+let historico = [];
+
+function addMsg(texto, tipo) {
+  const div = document.createElement("div");
+  div.className = "msg " + tipo;
+  div.innerHTML = `<div class="bubble">${texto}</div>`;
+  document.getElementById("messages").appendChild(div);
+  document.getElementById("messages").scrollTop = 999999;
+}
+
+async function enviar() {
+  const input = document.getElementById("input");
+  const texto = input.value;
+
+  if (!texto) return;
+
+  addMsg(texto, "user");
+  input.value = "";
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto })
+    });
+
+    const data = await res.json();
+    addMsg(data.resposta || "Sem resposta 😢", "bot");
+
+  } catch (err) {
+    addMsg("Erro de conexão 😢", "bot");
+    console.error(err);
+  }
+}
+</script>
+
+</body>
+</html>
